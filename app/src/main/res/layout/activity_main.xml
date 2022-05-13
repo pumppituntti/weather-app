@@ -1,24 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color1"
     tools:context=".MainActivity">
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_marginTop="50sp"
+        android:fontFamily="@font/baloo_chettan"
+        android:text="@string/header"
+        android:textAlignment="center"
+        android:textColor="@color/color3"
+        android:textSize="34sp" />
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_marginHorizontal="60sp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/color4"
+        android:textColorHint="@color/color5"
+        android:backgroundTint="@color/color4"
+        android:ems="10"
+        android:fontFamily="@font/baloo_chettan"
+        android:hint="Find your city"
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input"
+        android:layout_marginTop="20sp"
+        android:fontFamily="@font/baloo_chettan"
+        android:text="or"
+        android:textAlignment="center"
+        android:textColor="@color/color3"
+        android:textSize="24sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_below="@id/text"
+        android:layout_marginTop="20sp"
+        android:layout_marginHorizontal="100sp"
+        android:fontFamily="@font/baloo_chettan"
+        android:text="Use your location"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/button_find"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_location"
+        android:layout_marginTop="20sp"
+        android:layout_marginHorizontal="100sp"
+        android:fontFamily="@font/baloo_chettan"
+        android:text="Check out"
+        android:textSize="20sp" />
 
 
-</LinearLayout>
+
+</RelativeLayout>

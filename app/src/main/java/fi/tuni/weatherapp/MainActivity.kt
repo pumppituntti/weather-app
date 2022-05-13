@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button>(R.id.button)
+        val button = findViewById<Button>(R.id.button_find)
         button.setOnClickListener {
             downloadUrlAsync(this, "https://api.openweathermap.org/data/2.5/weather?q=tampere&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"){
                 Log.d("hello", it)
