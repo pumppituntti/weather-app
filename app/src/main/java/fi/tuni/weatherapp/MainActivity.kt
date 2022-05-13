@@ -1,7 +1,9 @@
 package fi.tuni.weatherapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +13,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -21,23 +26,35 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var button: Button
+    lateinit var button_location: Button
     lateinit var input: EditText
     lateinit var result_header: TextView
     lateinit var result_info: TextView
 
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        fetchLocation()
 
         input = findViewById(R.id.input)
         result_header = findViewById(R.id.result_header)
         result_info = findViewById(R.id.result_info)
 
-        val button = findViewById<Button>(R.id.button_find)
+        button = findViewById(R.id.button_find)
+        button_location = findViewById(R.id.button_location)
+        button_location.setOnClickListener {
+            fetchLocation()
+        }
         button.setOnClickListener {
             hideKeyboard()
             if (input.text.isEmpty()) {
-                Log.d("hello", "here")
                 Toast.makeText(this, "Field should not be empty!", Toast.LENGTH_LONG).show()
             } else {
                 result_header.text = "Loading..."
@@ -58,6 +75,31 @@ class MainActivity : AppCompatActivity() {
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
                                 "Wind: ${myObject.wind?.speed.toString()}"
                 }
+            }
+        }
+    }
+
+    private fun fetchLocation() {
+        val task = fusedLocationProviderClient.lastLocation
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
+            return
+        }
+        task.addOnSuccessListener {
+            if (it != null) {
+                result_header.text = "lat = ${it.latitude}, lon = ${it.longitude}"
             }
         }
     }
