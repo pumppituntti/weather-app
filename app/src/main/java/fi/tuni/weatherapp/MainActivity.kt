@@ -3,6 +3,7 @@ package fi.tuni.weatherapp
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -80,8 +81,14 @@ class MainActivity : AppCompatActivity() {
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
                                 "Wind: ${myObject.wind?.speed.toString()} m/s"
                 }
+                button_forecast.visibility = View.VISIBLE
             }
-            button_forecast.visibility = View.VISIBLE
+        }
+
+        button_forecast.setOnClickListener {
+            val intent = Intent(this, Forecast::class.java)
+            intent.putExtra("forecast", "THIS IS FORECAST")
+            startActivity(intent)
         }
     }
 
@@ -120,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun downloadUrlAsync(
+     fun downloadUrlAsync(
         activity: AppCompatActivity,
         url: String,
         callback: (result: String) -> Unit
