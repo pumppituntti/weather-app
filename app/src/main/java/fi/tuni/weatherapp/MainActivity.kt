@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var button: Button
     lateinit var button_location: Button
+    lateinit var button_forecast: Button
     lateinit var input: EditText
     lateinit var result_header: TextView
     lateinit var result_info: TextView
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         button = findViewById(R.id.button_find)
         button_location = findViewById(R.id.button_location)
+        button_forecast = findViewById(R.id.button_forecast)
         button_location.setOnClickListener {
             fetchLocation()
             searchByLocation = true
@@ -72,10 +74,6 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     val mp = ObjectMapper()
                     val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
-                    Log.d("hello", myObject.name.toString())
-                    Log.d("hello", myObject.wind?.speed.toString())
-                    Log.d("hello", myObject.weather?.get(0)?.main.toString())
-                    Log.d("hello", input.text.toString())
                     result_header.text = "Weather in ${myObject.name.toString()}"
                     result_info.text =
                         "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
@@ -83,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                                 "Wind: ${myObject.wind?.speed.toString()} m/s"
                 }
             }
+            button_forecast.visibility = View.VISIBLE
         }
     }
 
