@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var input: EditText
     lateinit var result_header: TextView
     lateinit var result_info: TextView
-
+    var searchByLocation: Boolean = false
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @SuppressLint("SetTextI18n")
@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        fetchLocation()
-
         input = findViewById(R.id.input)
         result_header = findViewById(R.id.result_header)
         result_info = findViewById(R.id.result_info)
@@ -51,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         button_location = findViewById(R.id.button_location)
         button_location.setOnClickListener {
             fetchLocation()
+            searchByLocation = true
         }
         button.setOnClickListener {
             hideKeyboard()
@@ -59,9 +58,17 @@ class MainActivity : AppCompatActivity() {
             } else {
                 result_header.text = "Loading..."
                 val city = input.text.toString()
+                val url: String
+                if (searchByLocation) {
+                    url =
+                        "https://api.openweathermap.org/data/2.5/weather?${input.text}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
+                    input.text.clear()
+                } else {
+                    url =
+                        "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
+                }
                 downloadUrlAsync(
-                    this,
-                    "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
+                    this, url
                 ) {
                     val mp = ObjectMapper()
                     val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
@@ -73,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     result_info.text =
                         "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
-                                "Wind: ${myObject.wind?.speed.toString()}"
+                                "Wind: ${myObject.wind?.speed.toString()} m/s"
                 }
             }
         }
@@ -99,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
         task.addOnSuccessListener {
             if (it != null) {
-                result_header.text = "lat = ${it.latitude}, lon = ${it.longitude}"
+                input.setText("lat=${it.latitude}&lon=${it.longitude}")
             }
         }
     }
