@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color1"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
@@ -27,14 +27,15 @@
         android:layout_below="@id/header"
         android:layout_marginHorizontal="60sp"
         android:layout_marginTop="50dp"
-        android:textColor="@color/color4"
-        android:textColorHint="@color/color5"
         android:backgroundTint="@color/color4"
         android:ems="10"
         android:fontFamily="@font/baloo_chettan"
         android:hint="Find your city"
         android:inputType="textPersonName"
-        android:textAlignment="center" />
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        android:textColor="@color/color4"
+        android:textColorHint="@color/color5" />
 
     <TextView
         android:id="@+id/text"
@@ -53,8 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text"
-        android:layout_marginTop="20sp"
         android:layout_marginHorizontal="100sp"
+        android:layout_marginTop="20sp"
         android:fontFamily="@font/baloo_chettan"
         android:text="Use your location"
         android:textSize="14sp" />
@@ -64,11 +65,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/button_location"
-        android:layout_marginTop="20sp"
         android:layout_marginHorizontal="100sp"
+        android:layout_marginTop="20sp"
         android:fontFamily="@font/baloo_chettan"
         android:text="Check out"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/result_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_find"
+        android:layout_marginTop="50sp"
+        android:fontFamily="@font/baloo_chettan"
+        android:textAlignment="center"
+        android:textColor="@color/color3"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/result_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/result_header"
+        android:layout_marginTop="10sp"
+        android:fontFamily="@font/baloo_chettan"
+        android:textAlignment="center"
+        android:textColor="@color/color3"
+        android:textSize="24sp" />
 
 
 
