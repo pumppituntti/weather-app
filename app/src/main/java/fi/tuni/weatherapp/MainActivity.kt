@@ -5,18 +5,17 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.squareup.picasso.Picasso
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -82,11 +81,18 @@ class MainActivity : AppCompatActivity() {
                         "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
                                 "Wind: ${myObject.wind?.speed.toString()} m/s"
-                    Log.d("hello", "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png")
-//                    image.setBackgroundResource(R.drawable.myObject.weather?.get(0)?.icon)
-//                    image.setImageResource(R.drawable.)
+                    Log.d(
+                        "hello",
+                        "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png"
+                    )
 
-                    Picasso.get().load("https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png").into(image);
+                    val context: Context = image.getContext()
+                    val id = context.resources.getIdentifier(
+                        "icon_${myObject.weather?.get(0)?.icon}",
+                        "drawable",
+                        context.packageName
+                    )
+                    image.setImageResource(id)
 
                 }
                 button_forecast.visibility = View.VISIBLE
@@ -135,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-     fun downloadUrlAsync(
+    fun downloadUrlAsync(
         activity: AppCompatActivity,
         url: String,
         callback: (result: String) -> Unit
