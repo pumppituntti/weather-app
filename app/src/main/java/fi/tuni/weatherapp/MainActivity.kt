@@ -10,15 +10,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.squareup.picasso.Picasso
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -33,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var input: EditText
     lateinit var result_header: TextView
     lateinit var result_info: TextView
+    lateinit var image: ImageView
     var searchByLocation: Boolean = false
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -46,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         input = findViewById(R.id.input)
         result_header = findViewById(R.id.result_header)
         result_info = findViewById(R.id.result_info)
+
+        image = findViewById(R.id.icon)
 
         button = findViewById(R.id.button_find)
         button_location = findViewById(R.id.button_location)
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                     url =
                         "https://api.openweathermap.org/data/2.5/weather?${input.text}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
                     input.text.clear()
+                    searchByLocation = false
                 } else {
                     url =
                         "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
@@ -80,6 +82,12 @@ class MainActivity : AppCompatActivity() {
                         "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
                                 "Wind: ${myObject.wind?.speed.toString()} m/s"
+                    Log.d("hello", "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png")
+//                    image.setBackgroundResource(R.drawable.myObject.weather?.get(0)?.icon)
+//                    image.setImageResource(R.drawable.)
+
+                    Picasso.get().load("https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png").into(image);
+
                 }
                 button_forecast.visibility = View.VISIBLE
             }

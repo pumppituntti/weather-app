@@ -1,108 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color1"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/header"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="@string/header"
-        android:textAlignment="center"
-        android:textColor="@color/color3"
-        android:textSize="34sp" />
+        android:layout_height="match_parent"
+        android:background="@color/color1"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/header"
-        android:layout_marginHorizontal="50sp"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/color4"
-        android:ems="10"
-        android:fontFamily="@font/baloo_chettan"
-        android:hint="Find your city"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:textAlignment="center"
-        android:textColor="@color/color4"
-        android:textColorHint="@color/color5" />
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:text="@string/header"
+            android:textAlignment="center"
+            android:textColor="@color/color3"
+            android:textSize="34sp" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/input"
-        android:layout_marginTop="20sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="or"
-        android:textAlignment="center"
-        android:textColor="@color/color3"
-        android:textSize="24sp" />
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:layout_marginHorizontal="50sp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/color4"
+            android:ems="10"
+            android:fontFamily="@font/baloo_chettan"
+            android:hint="Find your city"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:textAlignment="center"
+            android:textColor="@color/color4"
+            android:textColorHint="@color/color5" />
 
-    <Button
-        android:id="@+id/button_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text"
-        android:layout_marginHorizontal="100sp"
-        android:layout_marginTop="20sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="Use your location"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/input"
+            android:layout_marginTop="20sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:text="or"
+            android:textAlignment="center"
+            android:textColor="@color/color3"
+            android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/button_find"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_location"
-        android:layout_marginHorizontal="100sp"
-        android:layout_marginTop="20sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="Check out"
-        android:textSize="20sp" />
+        <Button
+            android:id="@+id/button_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:layout_marginHorizontal="100sp"
+            android:layout_marginTop="20sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:text="Use your location"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/result_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_find"
-        android:layout_marginTop="50sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:textAlignment="center"
-        android:textColor="@color/color3"
-        android:textSize="24sp" />
+        <Button
+            android:id="@+id/button_find"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_location"
+            android:layout_marginHorizontal="100sp"
+            android:layout_marginTop="20sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:text="Check out"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/result_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/result_header"
-        android:layout_marginTop="10sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:textAlignment="center"
-        android:textColor="@color/color3"
-        android:textSize="24sp" />
+        <TextView
+            android:id="@+id/result_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_find"
+            android:layout_marginTop="30sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:textAlignment="center"
+            android:textColor="@color/color3"
+            android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/button_forecast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/result_info"
-        android:layout_marginHorizontal="100sp"
-        android:layout_marginTop="20sp"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="Forecast"
-        android:textSize="20sp"
-        android:visibility="invisible" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_below="@id/result_header"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/result_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:textAlignment="center"
+            android:textColor="@color/color3"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/button_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/result_info"
+            android:layout_marginHorizontal="100sp"
+            android:layout_marginTop="20sp"
+            android:fontFamily="@font/baloo_chettan"
+            android:text="Forecast"
+            android:textSize="20sp"
+            android:visibility="invisible" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
