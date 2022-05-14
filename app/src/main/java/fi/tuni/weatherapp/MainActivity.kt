@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var result_header: TextView
     lateinit var result_info: TextView
     lateinit var image: ImageView
+    lateinit var list: ListView
+
     var searchByLocation: Boolean = false
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -46,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         result_info = findViewById(R.id.result_info)
 
         image = findViewById(R.id.icon)
+
+        list = findViewById(R.id.listView)
+
 
         button = findViewById(R.id.button_find)
         button_location = findViewById(R.id.button_location)
@@ -100,9 +105,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_forecast.setOnClickListener {
-            val intent = Intent(this, Forecast::class.java)
-            intent.putExtra("forecast", "THIS IS FORECAST")
-            startActivity(intent)
+//            val intent = Intent(this, Forecast::class.java)
+//            intent.putExtra("forecast", "THIS IS FORECAST")
+//            startActivity(intent)
+
+            val adapter: ArrayAdapter<Int> =
+                ArrayAdapter(this, R.layout.forecast_item, R.id.textView, ArrayList<Int>())
+            list.adapter = adapter
+
+            for (i in 1..10) {
+                adapter.add(i)
+        }
         }
     }
 

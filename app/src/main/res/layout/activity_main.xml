@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color1"
@@ -107,6 +107,7 @@
             android:textColor="@color/color3"
             android:textSize="24sp" />
 
+
         <Button
             android:id="@+id/button_forecast"
             android:layout_width="match_parent"
@@ -119,6 +120,17 @@
             android:textSize="20sp"
             android:visibility="invisible" />
 
+        <ListView
+            android:id="@+id/listView"
+            android:layout_marginTop="20sp"
+            android:layout_width="match_parent"
+            android:layout_below="@id/button_forecast"
+            android:layout_height="550sp"
+            android:fadeScrollbars="false"
+            android:isScrollContainer="false"
+            android:keepScreenOn="false"
+            android:scrollbars="none" />
 
     </RelativeLayout>
+
 </ScrollView>
