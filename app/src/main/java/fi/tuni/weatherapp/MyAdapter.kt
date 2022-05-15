@@ -1,5 +1,6 @@
 package fi.tuni.weatherapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ class MyAdapter(
     private val context: Activity,
     private val arrayList: ArrayList<ForecastWeatherObject>?
 ) : ArrayAdapter<ForecastWeatherObject>(context, R.layout.forecast_item, arrayList!!) {
+    @SuppressLint("SetTextI18n", "ViewHolder", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.forecast_item, null)
