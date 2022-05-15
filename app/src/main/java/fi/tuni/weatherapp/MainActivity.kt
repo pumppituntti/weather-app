@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var result_info: TextView
     lateinit var image: ImageView
     lateinit var list: ListView
+    lateinit var forecastUrl: String
+
+    var APIkey: String = "223d2e7247b5a5b808c39b7c173269ae"
 
     var searchByLocation: Boolean = false
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -69,12 +72,12 @@ class MainActivity : AppCompatActivity() {
                 val url: String
                 if (searchByLocation) {
                     url =
-                        "https://api.openweathermap.org/data/2.5/weather?${input.text}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
+                        "https://api.openweathermap.org/data/2.5/weather?${input.text}&units=metric&appid=${APIkey}"
                     input.text.clear()
                     searchByLocation = false
                 } else {
                     url =
-                        "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=223d2e7247b5a5b808c39b7c173269ae"
+                        "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIkey}"
                 }
                 downloadUrlAsync(
                     this, url
@@ -86,10 +89,12 @@ class MainActivity : AppCompatActivity() {
                         "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
                                 "Wind: ${myObject.wind?.speed.toString()} m/s"
-                    Log.d(
-                        "hello",
-                        "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png"
-                    )
+//                    Log.d(
+//                        "hello",
+//                        "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png"
+//                    )
+
+                    forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&cnt=3&appid=${APIkey}"
 
                     val context: Context = image.getContext()
                     val id = context.resources.getIdentifier(
@@ -109,13 +114,29 @@ class MainActivity : AppCompatActivity() {
 //            intent.putExtra("forecast", "THIS IS FORECAST")
 //            startActivity(intent)
 
+            downloadUrlAsync(
+                this, forecastUrl
+            ) {
+//                val mp = ObjectMapper()
+//                val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
+//                result_header.text = "Weather in ${myObject.name.toString()}"
+//                result_info.text =
+//                    "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
+//                            "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
+//                            "Wind: ${myObject.wind?.speed.toString()} m/s"
+                Log.d(
+                    "hello",
+                    it.toString()
+                )
+            }
+
             val adapter: ArrayAdapter<Int> =
                 ArrayAdapter(this, R.layout.forecast_item, R.id.textView, ArrayList<Int>())
             list.adapter = adapter
 
             for (i in 1..10) {
                 adapter.add(i)
-        }
+            }
         }
     }
 
