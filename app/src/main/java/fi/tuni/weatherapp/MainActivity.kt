@@ -3,7 +3,6 @@ package fi.tuni.weatherapp
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -24,20 +23,20 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var button: Button
-    lateinit var button_location: Button
-    lateinit var button_forecast: Button
-    lateinit var input: EditText
-    lateinit var result_header: TextView
-    lateinit var result_info: TextView
-    lateinit var image: ImageView
-    lateinit var list: ListView
-    lateinit var forecastUrl: String
+    private lateinit var button: Button
+    private lateinit var buttonLocation: Button
+    private lateinit var buttonForecast: Button
+    private lateinit var input: EditText
+    private lateinit var resultHeader: TextView
+    private lateinit var resultInfo: TextView
+    private lateinit var image: ImageView
+    private lateinit var list: ListView
+    private lateinit var forecastUrl: String
 
-    var APIkey: String = "223d2e7247b5a5b808c39b7c173269ae"
+    private var apiKey: String = "223d2e7247b5a5b808c39b7c173269ae"
 
-    var searchByLocation: Boolean = false
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private var searchByLocation: Boolean = false
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         input = findViewById(R.id.input)
-        result_header = findViewById(R.id.result_header)
-        result_info = findViewById(R.id.result_info)
+        resultHeader = findViewById(R.id.result_header)
+        resultInfo = findViewById(R.id.result_info)
 
         image = findViewById(R.id.icon)
 
@@ -56,9 +55,9 @@ class MainActivity : AppCompatActivity() {
 
 
         button = findViewById(R.id.button_find)
-        button_location = findViewById(R.id.button_location)
-        button_forecast = findViewById(R.id.button_forecast)
-        button_location.setOnClickListener {
+        buttonLocation = findViewById(R.id.button_location)
+        buttonForecast = findViewById(R.id.button_forecast)
+        buttonLocation.setOnClickListener {
             fetchLocation()
             searchByLocation = true
         }
@@ -67,25 +66,25 @@ class MainActivity : AppCompatActivity() {
             if (input.text.isEmpty()) {
                 Toast.makeText(this, "Field should not be empty!", Toast.LENGTH_LONG).show()
             } else {
-                result_header.text = "Loading..."
+                resultHeader.text = "Loading..."
                 val city = input.text.toString()
                 val url: String
                 if (searchByLocation) {
                     url =
-                        "https://api.openweathermap.org/data/2.5/weather?${input.text}&units=metric&appid=${APIkey}"
+                        "https://api.openweathermap.org/data/2.5/weather?${input.text}&units=metric&appid=${apiKey}"
                     input.text.clear()
                     searchByLocation = false
                 } else {
                     url =
-                        "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIkey}"
+                        "https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}"
                 }
                 downloadUrlAsync(
                     this, url
                 ) {
                     val mp = ObjectMapper()
                     val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
-                    result_header.text = "Weather in ${myObject.name.toString()}"
-                    result_info.text =
+                    resultHeader.text = "Weather in ${myObject.name.toString()}"
+                    resultInfo.text =
                         "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
                                 "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
                                 "Wind: ${myObject.wind?.speed.toString()} m/s"
@@ -93,23 +92,22 @@ class MainActivity : AppCompatActivity() {
 //                        "hello",
 //                        "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png"
 //                    )
+                    forecastUrl =
+                        "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&cnt=3&appid=${apiKey}"
 
-                    forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&cnt=3&appid=${APIkey}"
-
-                    val context: Context = image.getContext()
+                    val context: Context = image.context
                     val id = context.resources.getIdentifier(
                         "icon_${myObject.weather?.get(0)?.icon}",
                         "drawable",
                         context.packageName
                     )
                     image.setImageResource(id)
-
                 }
-                button_forecast.visibility = View.VISIBLE
+                buttonForecast.visibility = View.VISIBLE
             }
         }
 
-        button_forecast.setOnClickListener {
+        buttonForecast.setOnClickListener {
 //            val intent = Intent(this, Forecast::class.java)
 //            intent.putExtra("forecast", "THIS IS FORECAST")
 //            startActivity(intent)
@@ -126,7 +124,7 @@ class MainActivity : AppCompatActivity() {
 //                            "Wind: ${myObject.wind?.speed.toString()} m/s"
                 Log.d(
                     "hello",
-                    it.toString()
+                    it
                 )
             }
 
@@ -140,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
 
@@ -165,17 +164,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun Activity.hideKeyboard() {
+    private fun Activity.hideKeyboard() {
         hideKeyboard(currentFocus ?: View(this))
     }
 
-    fun Context.hideKeyboard(view: View) {
+    private fun Context.hideKeyboard(view: View) {
         val inputMethodManager =
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun downloadUrlAsync(
+    private fun downloadUrlAsync(
         activity: AppCompatActivity,
         url: String,
         callback: (result: String) -> Unit
@@ -194,17 +193,17 @@ class MainActivity : AppCompatActivity() {
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherWind(var speed: String? = null) {}
+data class WeatherWind(var speed: String? = null)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class WeatherMain(var temp: String? = null, var feels_like: String? = null) {}
+data class WeatherMain(var temp: String? = null, var feels_like: String? = null)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherInfo(
     var main: String? = null,
     var description: String? = null,
     var icon: String? = null
-) {}
+)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherObject(
@@ -212,4 +211,4 @@ data class WeatherObject(
     var weather: MutableList<WeatherInfo>? = null,
     var main: WeatherMain? = null,
     var wind: WeatherWind? = null
-) {}
+)
