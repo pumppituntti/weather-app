@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherApp" >
         <activity
-            android:name=".Forecast"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>

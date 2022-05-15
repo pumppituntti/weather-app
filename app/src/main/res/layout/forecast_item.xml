@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/icon"
             android:layout_width="50sp"
             android:layout_height="50sp"
             android:src="@drawable/icon_01d"/>
@@ -21,11 +22,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/temp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Day"/>
             <TextView
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Night"/>

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputBinding
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import fi.tuni.weatherapp.databinding.ActivityMainBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -38,10 +40,16 @@ class MainActivity : AppCompatActivity() {
     private var searchByLocation: Boolean = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private lateinit var binding: ActivityMainBinding
+
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -93,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 //                        "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png"
 //                    )
                     forecastUrl =
-                        "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&cnt=3&appid=${apiKey}"
+                        "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&appid=${apiKey}"
 
                     val context: Context = image.context
                     val id = context.resources.getIdentifier(
@@ -108,32 +116,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonForecast.setOnClickListener {
-//            val intent = Intent(this, Forecast::class.java)
-//            intent.putExtra("forecast", "THIS IS FORECAST")
-//            startActivity(intent)
-
             downloadUrlAsync(
                 this, forecastUrl
             ) {
-//                val mp = ObjectMapper()
-//                val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
-//                result_header.text = "Weather in ${myObject.name.toString()}"
-//                result_info.text =
-//                    "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
-//                            "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
-//                            "Wind: ${myObject.wind?.speed.toString()} m/s"
-                Log.d(
-                    "hello",
-                    it
-                )
-            }
-
-            val adapter: ArrayAdapter<Int> =
-                ArrayAdapter(this, R.layout.forecast_item, R.id.textView, ArrayList<Int>())
-            list.adapter = adapter
-
-            for (i in 1..10) {
-                adapter.add(i)
+                val mp = ObjectMapper()
+                val myObject: ForecastObject = mp.readValue(it, ForecastObject::class.java)
+                binding.listView.adapter = MyAdapter(this, myObject.list)
             }
         }
     }
@@ -211,4 +199,17 @@ data class WeatherObject(
     var weather: MutableList<WeatherInfo>? = null,
     var main: WeatherMain? = null,
     var wind: WeatherWind? = null
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class ForecastWeatherObject(
+    var weather: MutableList<WeatherInfo>? = null,
+    var main: WeatherMain? = null,
+    var wind: WeatherWind? = null,
+    var dt_txt: String? = null
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class ForecastObject(
+    var list: ArrayList<ForecastWeatherObject>? = null
 )

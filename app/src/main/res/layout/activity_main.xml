@@ -125,7 +125,7 @@
             android:layout_marginTop="20sp"
             android:layout_width="match_parent"
             android:layout_below="@id/button_forecast"
-            android:layout_height="550sp"
+            android:layout_height="2100sp"
             android:fadeScrollbars="false"
             android:isScrollContainer="false"
             android:keepScreenOn="false"
