@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     private var apiKey: String = "223d2e7247b5a5b808c39b7c173269ae"
 
     private var searchByLocation: Boolean = false
+    private var isError: Boolean = false
+
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var binding: ActivityMainBinding
@@ -73,6 +75,8 @@ class MainActivity : AppCompatActivity() {
             if (input.text.isEmpty()) {
                 Toast.makeText(this, "Field should not be empty!", Toast.LENGTH_LONG).show()
             } else {
+                list.visibility = View.INVISIBLE
+
                 resultHeader.text = "Loading..."
                 val city = input.text.toString()
                 val url: String
@@ -88,29 +92,31 @@ class MainActivity : AppCompatActivity() {
                 downloadUrlAsync(
                     this, url
                 ) {
-                    val mp = ObjectMapper()
-                    val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
-                    resultHeader.text = "Weather in ${myObject.name.toString()}"
-                    resultInfo.text =
-                        "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
-                                "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
-                                "Wind: ${myObject.wind?.speed.toString()} m/s"
-//                    Log.d(
-//                        "hello",
-//                        "https://openweathermap.org/img/wn/${myObject.weather?.get(0)?.icon}@2x.png"
-//                    )
-                    forecastUrl =
-                        "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&appid=${apiKey}"
+                    if (!isError) {
+                        Log.d("hello", "hahaha")
+                        val mp = ObjectMapper()
+                        val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
+                        resultHeader.text = "Weather in ${myObject.name.toString()}"
+                        resultInfo.text =
+                            "${myObject.weather?.get(0)?.main.toString()}, ${myObject.main?.temp} °C\n" +
+                                    "(feels like ${myObject.main?.feels_like.toString()} °C)\n" +
+                                    "Wind: ${myObject.wind?.speed.toString()} m/s"
 
-                    val context: Context = image.context
-                    val id = context.resources.getIdentifier(
-                        "icon_${myObject.weather?.get(0)?.icon}",
-                        "drawable",
-                        context.packageName
-                    )
-                    image.setImageResource(id)
+                        forecastUrl =
+                            "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&appid=${apiKey}"
+
+                        val context: Context = image.context
+                        val id = context.resources.getIdentifier(
+                            "icon_${myObject.weather?.get(0)?.icon}",
+                            "drawable",
+                            context.packageName
+                        )
+                        image.setImageResource(id)
+                        buttonForecast.visibility = View.VISIBLE
+                    } else {
+                        resultHeader.text = "Oops, something went wrong!\nTry again!"
+                    }
                 }
-                buttonForecast.visibility = View.VISIBLE
             }
         }
 
@@ -121,6 +127,8 @@ class MainActivity : AppCompatActivity() {
                 val mp = ObjectMapper()
                 val myObject: ForecastObject = mp.readValue(it, ForecastObject::class.java)
                 binding.listView.adapter = MyAdapter(this, myObject.list)
+                list.visibility = View.VISIBLE
+
             }
         }
     }
@@ -169,11 +177,25 @@ class MainActivity : AppCompatActivity() {
         var line: String
         thread {
             val httpURLConnection = URL(url).openConnection() as HttpURLConnection
-            val reader = BufferedReader(InputStreamReader(httpURLConnection.inputStream))
-            line = reader.readLine()
-            httpURLConnection.disconnect()
-            activity.runOnUiThread {
-                callback(line)
+            Log.d("hello", "here1")
+
+            if (httpURLConnection.responseCode == 200) {
+                isError = false
+                Log.d("hello", "here3")
+                val reader = BufferedReader(InputStreamReader(httpURLConnection.inputStream))
+                line = reader.readLine()
+                httpURLConnection.disconnect()
+                activity.runOnUiThread {
+                    callback(line)
+                }
+            } else {
+                Log.d("hello", "here")
+                isError = true
+//                Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show()
+                httpURLConnection.disconnect()
+                activity.runOnUiThread {
+                    callback("")
+                }
             }
         }
     }

@@ -30,7 +30,7 @@ class MyAdapter(
             imageContext.packageName
         )
         imageView.setImageResource(id)
-        temp.text = "${arrayList?.get(position)?.weather?.get(0)?.main}, ${arrayList?.get(position)?.main?.temp} °C"
+        temp.text = "${arrayList?.get(position)?.main?.temp} °C\nWind: ${arrayList?.get(position)?.wind?.speed.toString()} m/s"
         date.text = arrayList?.get(position)?.dt_txt
 
         return view
