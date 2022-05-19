@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+//custom adapter for forecast items
 class MyAdapter(
     private val context: Activity,
     private val arrayList: ArrayList<ForecastWeatherObject>?
@@ -22,11 +23,14 @@ class MyAdapter(
         val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.forecast_item, null)
 
+        //item contains image and two textViews
         val imageView: ImageView = view.findViewById(R.id.icon)
         val temp: TextView = view.findViewById(R.id.temp)
         val date: TextView = view.findViewById(R.id.date)
 
         val imageContext: Context = imageView.context
+
+        //set data to item
         val id = imageContext.resources.getIdentifier(
             "icon_${arrayList?.get(position)?.weather?.get(0)?.icon}",
             "drawable",
