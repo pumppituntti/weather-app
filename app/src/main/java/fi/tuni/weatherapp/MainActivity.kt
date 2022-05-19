@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
                     this, url
                 ) {
                     if (!isError) {
-                        Log.d("hello", "hahaha")
                         val mp = ObjectMapper()
                         val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
                         resultHeader.text = "Weather in ${myObject.name.toString()}"
@@ -227,7 +226,7 @@ data class ForecastWeatherObject(
     var weather: MutableList<WeatherInfo>? = null,
     var main: WeatherMain? = null,
     var wind: WeatherWind? = null,
-    var dt_txt: String? = null
+    var dt: Long? = null
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)

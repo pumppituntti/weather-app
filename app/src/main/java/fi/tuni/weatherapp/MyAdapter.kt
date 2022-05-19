@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MyAdapter(
     private val context: Activity,
@@ -31,7 +34,7 @@ class MyAdapter(
         )
         imageView.setImageResource(id)
         temp.text = "${arrayList?.get(position)?.main?.temp} °C\nWind: ${arrayList?.get(position)?.wind?.speed.toString()} m/s"
-        date.text = arrayList?.get(position)?.dt_txt
+        date.text = SimpleDateFormat("dd.MM, HH:mm", Locale("en", "FI")).format(Date(arrayList?.get(position)?.dt!!.toLong() * 1000))
 
         return view
     }

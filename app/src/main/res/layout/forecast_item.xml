@@ -31,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/baloo_chettan"
-                android:text="Day"
-                android:textColor="@color/color3" />
+                android:textColor="@color/color3"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/date"
@@ -40,8 +40,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5sp"
                 android:fontFamily="@font/baloo_chettan"
-                android:text="Night"
-                android:textColor="@color/color3" />
+                android:textColor="@color/color3"
+                android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
