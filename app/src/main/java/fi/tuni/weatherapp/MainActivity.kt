@@ -105,11 +105,16 @@ class MainActivity : AppCompatActivity() {
                             context.packageName
                         )
                         image.setImageResource(id)
+                        image.visibility = View.VISIBLE
+                        resultInfo.visibility = View.VISIBLE
 
                         // if weather is displayed, set forecast button visibility
                         buttonForecast.visibility = View.VISIBLE
                     } else {
                         resultHeader.text = "Oops, something went wrong!\nTry again!"
+                        image.visibility = View.INVISIBLE
+                        resultInfo.visibility = View.INVISIBLE
+                        buttonForecast.visibility = View.INVISIBLE
                     }
                 }
             }
