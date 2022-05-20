@@ -10,3 +10,7 @@ Artem Tolpa
 # Tech/framework used
 
 An Android app made on Kotlin using the [OpenWeather API](https://openweathermap.org/api)
+
+# Screencast
+
+https://www.youtube.com/watch?v=6uHTmI5CzU4
