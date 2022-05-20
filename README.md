@@ -1,7 +1,7 @@
 # WeatherApp
 
 Simple weather app for Android. The app has a search by city and by location, using GPS.
-The app shows the current weather (temperature, wind, cloudiness) as well as the forecast for the coming week.
+The app shows the current weather (temperature, wind, cloudiness) as well as the forecast for the 5 days.
 
 # Author
 
