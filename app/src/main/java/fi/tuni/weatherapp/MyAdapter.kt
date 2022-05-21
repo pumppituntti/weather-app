@@ -13,7 +13,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-//custom adapter for forecast items
+/**
+ * Custom adapter for rendering forecast items
+ *
+ * @property context the context in which the list is rendered
+ * @property arrayList list to parse and render
+ */
 class MyAdapter(
     private val context: Activity,
     private val arrayList: ArrayList<ForecastWeatherObject>?

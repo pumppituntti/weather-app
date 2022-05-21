@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/pumpp/OneDrive/Documents/Koulu/Mobiili/weather-app/app/src/main/res/layout/activity_forecast.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/pumpp/OneDrive/Documents/Koulu/Mobiili/weather-app/app/src/main/res/layout/activity_forecast2.xml" value="0.17552083333333332" />
-        <entry key="..\:/Users/pumpp/OneDrive/Documents/Koulu/Mobiili/weather-app/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/pumpp/OneDrive/Documents/Koulu/Mobiili/weather-app/app/src/main/res/layout/activity_main.xml" value="0.13257277734067663" />
         <entry key="..\:/Users/pumpp/OneDrive/Documents/Koulu/Mobiili/weather-app/app/src/main/res/layout/forecast_item.xml" value="0.22" />
         <entry key="..\:/Users/pumpp/OneDrive/Documents/Koulu/Mobiili/weather-app/app/src/main/res/layout/forecast_line.xml" value="0.13541666666666666" />
       </map>

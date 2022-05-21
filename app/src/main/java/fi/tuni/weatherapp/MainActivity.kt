@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        binding for listView custom adapter
+        //binding for listView custom adapter
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         button = findViewById(R.id.button_find)
         buttonLocation = findViewById(R.id.button_location)
         buttonForecast = findViewById(R.id.button_forecast)
+
+        //fetch location
         buttonLocation.setOnClickListener {
             fetchLocation()
             searchByLocation = true
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 list.visibility = View.INVISIBLE
                 resultHeader.text = "Loading..."
                 val city = input.text.toString()
+                //set url depending on if search by city name or by GPS location
                 val url: String
                 if (searchByLocation) {
                     url =
@@ -85,9 +88,11 @@ class MainActivity : AppCompatActivity() {
                 downloadUrlAsync(
                     this, url
                 ) {
+                    //if response code == 200
                     if (!isError) {
                         // response parsing
                         val mp = ObjectMapper()
+                        //get json object
                         val myObject: WeatherObject = mp.readValue(it, WeatherObject::class.java)
                         resultHeader.text = "Weather in ${myObject.name.toString()}"
                         resultInfo.text =
@@ -98,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                             "https://api.openweathermap.org/data/2.5/forecast?q=${myObject.name.toString()}&units=metric&appid=${apiKey}"
                         val context: Context = image.context
 
-                        // set weather icon depending on response
+                        // set weather icon depending on icon id in response
                         val id = context.resources.getIdentifier(
                             "icon_${myObject.weather?.get(0)?.icon}",
                             "drawable",
@@ -111,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                         // if weather is displayed, set forecast button visibility
                         buttonForecast.visibility = View.VISIBLE
                     } else {
+                        //if response code != 200 -> error, try again
                         resultHeader.text = "Oops, something went wrong!\nTry again!"
                         image.visibility = View.INVISIBLE
                         resultInfo.visibility = View.INVISIBLE
@@ -128,13 +134,19 @@ class MainActivity : AppCompatActivity() {
             ) {
                 //response parsing
                 val mp = ObjectMapper()
+                //get json object
                 val myObject: ForecastObject = mp.readValue(it, ForecastObject::class.java)
+                //render listview using custom adapter
                 binding.listView.adapter = MyAdapter(this, myObject.list)
                 list.visibility = View.VISIBLE
             }
         }
     }
 
+    /**
+     * Function for fetching location, using fusedLocationProviderClient
+     *
+     */
     @SuppressLint("SetTextI18n")
     private fun fetchLocation() {
         val task = fusedLocationProviderClient.lastLocation
@@ -157,12 +169,16 @@ class MainActivity : AppCompatActivity() {
         }
         task.addOnSuccessListener {
             if (it != null) {
+                //set location latitude and longitude to input text for weather fetching
                 input.setText("lat=${it.latitude}&lon=${it.longitude}")
             }
         }
     }
 
-    //  function for keyboard hiding
+    /**
+     * Function for keyboard hiding
+     *
+     */
     private fun Activity.hideKeyboard() {
         hideKeyboard(currentFocus ?: View(this))
     }
@@ -171,7 +187,14 @@ class MainActivity : AppCompatActivity() {
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    //fetch data
+
+    /**
+     * Function in which the data is fetched using httpURLConnection
+     *
+     * @param activity the activity in which the fetching happens
+     * @param url url to fetch
+     * @param callback function to parse response
+     */
     private fun downloadUrlAsync(
         activity: AppCompatActivity,
         url: String,
@@ -201,12 +224,31 @@ class MainActivity : AppCompatActivity() {
 }
 
 //data classes for response parsing
+
+/**
+ * Data class for wind info
+ *
+ * @property speed wind speed
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherWind(var speed: String? = null)
 
+/**
+ * Data class for temperature info
+ *
+ * @property temp actual temperature
+ * @property feels_like temperature feels like
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherMain(var temp: String? = null, var feels_like: String? = null)
 
+/**
+ * Data class for weather description and icon
+ *
+ * @property main short weather description
+ * @property description full description
+ * @property icon weather icon ID
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherInfo(
     var main: String? = null,
@@ -214,6 +256,14 @@ data class WeatherInfo(
     var icon: String? = null
 )
 
+/**
+ * Data class for weather object, that contains all info
+ *
+ * @property name city name
+ * @property weather weather info object
+ * @property main object with weather description and icon
+ * @property wind object with wind info
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class WeatherObject(
     var name: String? = null,
@@ -222,6 +272,14 @@ data class WeatherObject(
     var wind: WeatherWind? = null
 )
 //forecast item
+/**
+ * Data class for forecast item
+ *
+ * @property weather weather info object
+ * @property main object with weather description and icon
+ * @property wind object with wind info
+ * @property dt date
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ForecastWeatherObject(
     var weather: MutableList<WeatherInfo>? = null,
@@ -229,7 +287,12 @@ data class ForecastWeatherObject(
     var wind: WeatherWind? = null,
     var dt: Long? = null
 )
-//forecast list
+
+/**
+ * Data class for forecast list
+ *
+ * @property list list with forecast items
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ForecastObject(
     var list: ArrayList<ForecastWeatherObject>? = null
