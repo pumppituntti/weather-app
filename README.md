@@ -11,10 +11,6 @@ Artem Tolpa
 
 An Android app made on Kotlin using the [OpenWeather API](https://openweathermap.org/api)
 
-# Screencast
-
-https://www.youtube.com/watch?v=6uHTmI5CzU4
-
 # Screenshots
 
 <img src="./screenshots/screenshot.png" alt="screenshot" width="500">
